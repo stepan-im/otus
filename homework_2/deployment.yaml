@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-service-deployment
+  namespace: homework-ns
+  labels:
+    app: http-service-deployment
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: http-service
+  template:
+    metadata:
+      labels:
+        app: http-service
+    spec:
+      containers:
+      - name: http-service-app
+        image: stepanim/http_service:latest
+        ports:
+        - containerPort: 8000
